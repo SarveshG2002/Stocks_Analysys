@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <style>
+        body {
+            margin: 0px;
+        }
+
+        .header {
+            background-color: #ffebee;
+            padding: 10px;
+            display: grid;
+            grid-template-columns: 75% auto auto;
+        }
+
+        .header_title {
+            font-size: 50px;
+            text-align: center;
+            /* color: rgb(204, 238, 83); */
+        }
+
+        .but {
+            background-color: rgb(43, 226, 217);
+            padding: 5px;
+            width: fit-content;
+            border-radius: 5px;
+            color: rgb(0, 47, 255);
+            margin-top: 15px;
+            margin-right: 40px;
+            float: right;
+        }
+
+        .content {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 20% 50% auto;
+            height: 100vh;
+            background-color: aliceblue;
+            
+        }
+
+        .content_1 {
+            width: 100%;
+            background-color: aliceblue;
+            border-width: 0px 1px 0px 1px;
+            border-style: ridge;
+            border-color: rgb(88, 88, 88);
+        }
+
+        .side {
+            width: 100%;
+            overflow: auto;
+        }
+
+        .shead {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            
+            text-align: center;
+            font-size: 25px;
+        }
+
+        .buyed {
+            text-align: center;
+            background-color: #ef9a9a;
+            height: fit-content;
+            padding: 5px 0px;
+            font-size: 25px;
+            width: 90%;
+            margin: 10px auto;
+            border-radius: 10px;
+        }
+
+        .saved {
+            text-align: center;
+            background-color: antiquewhite;
+            height: fit-content;
+            padding: 5px 0px;
+            font-size: 25px;
+            width: 90%;
+            margin: 10px auto;
+            border-radius: 10px;
+        }
+
+        .saved:hover,
+        .buyed:hover {
+            background-color: #ffebee;
+        }
+
+        .search {
+            width: 100%;
+            padding: 10px;
+            background-color: aliceblue;
+            box-sizing: border-box;
+        }
+
+        .search input {
+            width: 50%;
+            font-size: 25px;
+        }
+
+        .live {
+            width: 100%;
+            /* background-color: rgb(165, 165, 165); */
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .gcontent:hover{
+            background-color: #ffebee;
+        }
+
+        .lstock {
+            width: auto;
+            border-width: 1px;
+            padding: 10px;
+            border-style: solid;
+            display: inline-block;
+            box-sizing: border-box;
+        }
+
+        .save_stocks {
+            margin-top: 10px;
+            background-color: rgb(239, 237, 237);
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            overflow: auto;
+            display: grid;
+            grid-template-columns: 10% 70% auto;
+
+        }
+
+        .sitem {
+            border-width: 0px 0px 1px 0px;
+            border-style: ridge;
+            padding-bottom: 5px;
+            border-color: grey;
+        }
+
+        .dropb {
+            background-color: blueviolet;
+            padding: 5px;
+            color: aliceblue;
+        }
+
+        .dropb:hover {
+            background-color: rgb(255, 240, 254);
+            color: black;
+        }
+
+        .dropb:active {
+            background-color: blueviolet;
+            color: aliceblue;
+        }
+        .gcontent{
+            background: none;
+            border-radius: 10px;
+            border-width: 1px;
+            border-style: ridge;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="header_title">
+            Stock Market Analysis
+        </div>
+
+        <div class="buyed" onclick="buy_page_render()">
+            Buyed stocks
+        </div>
+        <div style="width: 70%; margin-top: -5px;">
+            <div class="but" onclick="calls()">
+                <!-- <a>Login</a>/<a>Signup</a> -->
+                <span class="material-symbols-outlined" style="font-size: 25px;">
+                    person
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="live" id="live">
+
+    </div>
+    <div class="content">
+        <div class="side">
+            <div class="shead" id="g">
+                Top gainers
+                <div class="gcontent"
+                    style="text-align: left;font-size: 15px;background-color: rgb(255, 255, 255);margin: 20px;padding: 5px 10px;">
+                    <h>AAPL</h><br>
+                    <h>Previous price: 500000</h><br>
+                    <h>Ltp: 600000</h><br>
+                </div>
+            </div>
+            <br>
+            <div class="shead" id="l">
+                Top losers
+                <div class="lcontent">
+
+                </div>
+            </div>
+        </div>
+        <div class="content_1">
+            <div class="search">
+                <input type="text" placeholder="Enter Stock ticker" id="ticker" oninput="isTick()">
+                <button style="font-size: 25px;" onclick="getStock()">Analysis</button>
+                <h>Use .bse extaintion for indian stocks</h>
+            </div>
+            <div class="loader" id="loader" style="font-size: 30px;">Stock not selected</div>
+            <img src="{{ url_for('static',filename='temp.jpg') }}" alt="" id="graph"
+                style="display: block;width: 80%;margin: 0px auto;">
+        </div>
+        <div class="side">
+            <center>
+
+                <br><br>
+                <input type="text" placeholder="Current price" id="op" disabled
+                    style="width: 80%; font-size: 20px;margin: 0px auto;padding: 5px;"><br>
+                <input type="text" placeholder="Predicted price" id="pp" disabled
+                    style="width: 80%;font-size: 20px;padding: 5px; margin-top: 5px;"><br>
+                <input type="text" placeholder="yesterday close" id="clo" disabled
+                    style="width: 80%;font-size: 20px;padding: 5px; margin-top: 5px;"><br>
+                <input type="text" placeholder="yesterday low" id="lo" disabled
+                    style="width: 80%;font-size: 20px;padding: 5px; margin-top: 5px;"><br>
+                <input type="text" placeholder="yesterday high" id="hi" disabled
+                    style="width: 80%;font-size: 20px;padding: 5px; margin-top: 5px;"><br>
+                <input type="text" placeholder="yesterday open" id="ope" disabled
+                    style="width: 80%;font-size: 20px;padding: 5px; margin-top: 5px;"><br>
+                <br>
+                <button style="font-size: 25px;" onclick="render_buy()">Buy</button>
+                <button style="font-size: 25px;" id="save" onclick="Save_s()">Save</button>
+                <div style="margin-top: 30px;font-size: 25px;">
+                    Saved Stocks
+                </div>
+                <div class="save_stocks" id="save_stocks">
+                    <div class="index sitem" style="font-size: 20px;">1</div>
+                    <div class="ticker sitem" style="font-size: 20px;">AAPL</div>
+                    <div class="drop sitem">
+                        <div class="dropb" style="">
+                            Drop
+                        </div>
+                    </div>
+                </div>
+            </center>
+        </div>
+    </div>
+    <script>
+
+        function getStock() {
+            if (document.getElementById("ticker").value != "") {
+                document.getElementById("loader").innerHTML = "Analizing.... "
+                ticker = document.getElementById("ticker").value;
+                let span = "10";
+                let epoch = "2"
+                let a = check_cred("getStock", { ticker: ticker, span: span, epoch: epoch, user: user_data })
+                document.getElementById("graph").src = "{{ url_for('static',filename='Gear_Loader.gif') }}"
+                document.getElementById("graph").style.width = "50%";
+                document.getElementById("graph").style.margin = "50px 20%";
+
+                a.then(data => {
+                    //console.log(data["ret"][0])
+                    console.log(data)
+                    data = JSON.parse(data)
+                    //console.log(data["ret"][1])
+                    //console.log(data["ret"][2])
+                    //
+                    //console.log("{{ url_for('static',filename='" + data + "') }}")
+                    //let path = `${window.origin}/` + "/static/" + data
+                    //console.log(path)
+                    //document.getElementById("loader").style.display = "none"
+                    //document.getElementById("graph").style.display = "block"
+
+                    document.getElementById("graph").src = "data:image/png;base64," + data["ret"][0]
+                    document.getElementById("graph").style.width = "80%";
+                    document.getElementById("graph").style.margin = "0px auto";
+                    document.getElementById("op").value = "Tommorows Prediction: " + data["ret"][1]
+                    document.getElementById("pp").value = "Original: " + data["ret"][6]
+                    pre = data["ret"][1]
+                    ori = data["ret"][6]
+                    image = "data:image/png;base64," + data["ret"][0]
+                    document.getElementById("clo").value = "Yesterday's close: " + data["ret"][2]
+                    document.getElementById("lo").value = "Yesterday's low: " + data["ret"][3]
+                    document.getElementById("hi").value = "Yesterday's high: " + data["ret"][4]
+                    document.getElementById("ope").value = "Yesterday's open: " + data["ret"][5]
+                    document.getElementById("loader").innerHTML = ""
+                })
+                a.catch(error => {
+                    alert("Data not found please try with different stock")
+                })
+
+            }
+        }
+        function Save_s() {
+            console.log(user_data)
+            if (ticker != undefined) {
+                let a = check_cred("save_stocks", { ticker: ticker, user: user_data })
+                a.then(data => {
+                    get_saved()
+                })
+            }
+
+        }
+        function render_buy() {
+            if (image != undefined) {
+                $(document).ready(function () {
+                    console.log("hello")
+                    $("#mainContent").load("buy_page")
+                })
+            }
+        }
+        function buy_page_render() {
+            $("#mainContent").load("buySell_page")
+        }
+        function getgainer() {
+            let a = check_cred("getgainers", {})
+            a.then(data => {
+                data = JSON.parse(data)
+                console.log(data)
+                console.log(data["gainers"])
+                console.log(data["gainers"][1][0])
+                let gainers = "Top Gainers"
+                for (let i = 1; i < data["gainers"].length; i++) {
+                    gainers = gainers + "<div class='gcontent' style='text-align: left;font-size: 15px;margin: 20px;padding: 5px 10px;'><h>" + data['gainers'][i][0] + "</h><br><h>Previous price: " + data['gainers'][i][4] + "</h><br><h>Ltp: " + data['gainers'][i][6] + "</h><br></div>"
+                }
+                let loosers = "Top Loosers"
+                for (let i = 1; i < data["loosers"].length; i++) {
+                    loosers = loosers + "<div class='gcontent' style='text-align: left;font-size: 15px;margin: 20px;padding: 5px 10px;'><h>" + data['loosers'][i][0] + "</h><br><h>Previous price: " + data['loosers'][i][4] + "</h><br><h>Ltp: " + data['loosers'][i][6] + "</h><br></div>"
+                }
+                document.getElementById("g").innerHTML = gainers
+                document.getElementById("l").innerHTML = loosers
+            })
+        }
+        function getLive() {
+            document.getElementById("live").innerHTML = "Loading Live price....."
+            let a = check_cred("getlive", {})
+            a.then(data => {
+                console.log(data)
+                data = JSON.parse(data)
+                let markup = "";
+                let temp = "";
+                for (let x in data) {
+                    temp = "<div class='lstock' onclick='getstock(" + x + ")'>" + x + " <br> " + data[x] + "</div>";
+                    markup = markup + temp
+                }
+                document.getElementById("live").innerHTML = markup
+            })
+        }
+        function get_saved() {
+            let a = check_cred("getsavestocks", { user: user_data })
+            a.then(data => {
+                console.log(data)
+                data = JSON.parse(data)
+                data = data["ret"]
+                if (data != "false") {
+                    saved_stocks = data
+                    let markup = ""
+                    for (let x = 0; x < data.length; x++) {
+                        markup = markup + "<div class='index sitem' style='font-size: 20px;''>" + (x + 1) + "</div><div class='ticker sitem' style='font-size: 20px;''>" + data[x][0] + "</div><div class='drop sitem'><div style='background-color: blueviolet;padding: 5px;'' onclick=drop('" + x + "')>Drop</div></div>"
+                    }
+                    let okk = document.getElementById("save_stocks")
+                    okk.innerHTML = markup
+                }
+                else{
+                    document.getElementById("save_stocks").innerHTML="<div></div>You didn't save any stock<div></div>"
+                }
+
+            })
+        }
+        function drop(x) {
+            let a = check_cred("drop_stock", { ticker: saved_stocks[x][0], user: user_data })
+            a.then(data => {
+                get_saved()
+            })
+        }
+        function get_recent(){
+            let a=check_cred("get_recent",{user:user_data})
+            a.then(data=>{
+                console.log(data)
+                if(data!=""){
+                    document.getElementById("ticker").value=data;
+                    getStock()
+                }
+                
+            })
+        }
+        getLive()
+        getgainer()
+        get_saved()
+        get_recent()
+    </script>
+
+</body>
+
+</html>

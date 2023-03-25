@@ -1,0 +1,246 @@
+<style>
+    .box {
+        width: 500px;
+        height: fit-content;
+        padding: 0px 0px 10px 0px;
+        background-color: #f9f8f6;
+        margin: 0px auto;
+        border-radius: 5px;
+    }
+
+    .title {
+        width: 100%;
+        text-align: center;
+        font-size: 25px;
+        padding: 20px 0px;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        color: rgb(177, 176, 176);
+        background-color: rgb(170, 98, 236);
+        border-radius: 5px 5px 0px 0px;
+    }
+
+    .section {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 50% 50%;
+        text-align: center;
+        font-size: 25px;
+        height: 35px;
+    }
+
+    .upi {
+        background-color: rgb(161, 85, 233);
+    }
+
+    .upi,
+    .card:hover {
+        cursor: pointer;
+    }
+
+    .cardform {
+        width: 90%;
+        margin: 0px auto;
+        font-size: 20px;
+        color: rgb(145, 141, 141);
+        margin-top: 20px;
+        /* display: none; */
+    }
+
+    input {
+        font-size: 25px;
+        width: 100%;
+        box-sizing: border-box;
+        margin: 5px 0px 20px 0px;
+    }
+
+    .sub {
+        display: grid;
+        grid-template-columns: 45% 10% 45%;
+    }
+
+    .checkout {
+        width: fit-content;
+        padding: 10px;
+        margin: 10px auto;
+        background-color: blueviolet;
+        color: #f9f8f6;
+        border-radius: 5px;
+    }
+
+    .checkout:hover {
+        cursor: pointer;
+    }
+
+    .upiForm {
+        width: 90%;
+        margin: 0px auto;
+        margin-top: 20px;
+        font-size: 20px;
+        color: grey;
+        display: none;
+    }
+
+    .tick {
+        width: 500px;
+        height: 400px;
+        background-color: aqua;
+        margin: 0px auto;
+        padding: 10px;
+        box-sizing: border-box;
+        animation: fadeIn 5s;
+    }
+</style>
+</head>
+
+<body>
+    <div class="box">
+        <div class="title">
+            Payment Title
+        </div>
+        <div class="section">
+            <div class="card" onclick="change('card')" id="card">
+                Card
+            </div>
+            <div class="upi" onclick="change('upi')" id="upi">
+                UPI
+            </div>
+        </div>
+        <div class="cardform" id="cardForm">
+            <label for="cardHolder">
+                Card Holder
+            </label>
+            <br>
+            <input type="text" id="holder">
+            <label for="cardnumber">
+                Card Number
+            </label>
+            <br>
+            <input type="text" id="number">
+            <div class="sub">
+                <div>
+                    <label for="cardexpiry">
+                        Expiry date
+                    </label>
+                    <br>
+                    <div style="display: grid; grid-template-columns: 50% 50%;margin-top: 10px;">
+                        <select name="month" id="month"
+                            style="height: fit-content;font-size: 25px;width: 95%;color: grey;" id="month">
+                            <option value="">January</option>
+                            <option value="">February</option>
+                            <option value="">March</option>
+                            <option value="">April</option>
+                            <option value="">May</option>
+                            <option value="">June</option>
+                            <option value="">July</option>
+                            <option value="">August</option>
+                            <option value="">September</option>
+                            <option value="">Octomber</option>
+                            <option value="">November</option>
+                            <option value="">December</option>
+                        </select>
+                        <select name="year" id="year"
+                            style="height: fit-content;font-size: 25px;width: 95%;color: grey;" id="year">
+                            <option value="">2022</option>
+                            <option value="">2023</option>
+                            <option value="">2024</option>
+                            <option value="">2025</option>
+                            <option value="">2026</option>
+                            <option value="">2027</option>
+                            <option value="">2028</option>
+                            <option value="">2029</option>
+                            <option value="">2030</option>
+                            <option value="">2031</option>
+                            <option value="">2032</option>
+                            <option value="">2033</option>
+                            <option value="">2034</option>
+                            <option value="">2035</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                </div>
+                <div>
+                    <label for="cardcvv">
+                        CVV
+                    </label>
+                    <br>
+                    <input type="number" id="cvv">
+                </div>
+            </div>
+            <div class="checkout" onclick="submit()">
+                Checkout
+            </div>
+        </div>
+
+        <div class="upiForm" id="upiForm">
+            <label for="upiid">Your Upi Id</label>
+            <input type="text" id="upi" placeholder="Enter Here">
+            <div style="text-align: center;">
+                Or
+            </div>
+            <div class="scanner" style="width: 70%;margin: 10px auto;">
+                <img src="/static/scanner.jpg" alt="" style="width: 100%;">
+            </div>
+            <div class="checkout" onclick="submit()">
+                checkout
+            </div>
+        </div>
+
+        <div class="tick" style="display: none;" id="tick">
+            <div class="checkout" onclick="back()">
+                Back
+            </div>
+            
+            <img src="/static/tick.gif" alt="" style="width: 100%;height: 100%;">
+
+        </div>
+
+    </div>
+
+
+
+    <script>
+        function change(mode) {
+            if (mode == "upi") {
+                document.getElementById("cardForm").style.display = "none"
+                document.getElementById("upiForm").style.display = "block"
+                document.getElementById("card").style.backgroundColor = "blueviolet"
+                document.getElementById("upi").style.backgroundColor = "#f9f8f6"
+
+            }
+            else if (mode == "card") {
+                document.getElementById("cardForm").style.display = "block"
+                document.getElementById("upiForm").style.display = "none"
+                document.getElementById("upi").style.backgroundColor = "blueviolet"
+                document.getElementById("card").style.backgroundColor = "#f9f8f6"
+            }
+        }
+        function submit() {
+
+            let holder = document.getElementById("holder").value
+            let number = document.getElementById("number").value
+            let month = document.getElementById("month").value
+            let year = document.getElementById("year").value
+            let cvv = document.getElementById("cvv").value
+            if (holder == "" || number == "" || cvv == "") {
+                alert("Please fill all details")
+            }
+            else if (number.length != 4) {
+                alert("account number in not valid")
+            }
+            else {
+                let a = check_cred("buy_stocks", payment)
+                a.then(data => {
+                    console.log(data)
+                })
+                document.getElementById("cardForm").style.display = "none"
+                document.getElementById("upiForm").style.display = "none"
+                document.getElementById("upi").style.display = "none"
+                document.getElementById("card").style.display = "none"
+                document.getElementById("tick").style.display = "block"
+            }
+        }
+        function back() {
+            $("#mainContent").load("buySell_page")
+        }
+    </script>

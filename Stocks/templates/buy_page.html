@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0px;
+        }
+
+        .header {
+            background-color: rgb(62, 122, 233);
+            padding: 10px;
+            display: grid;
+            grid-template-columns: 65% auto auto auto;
+        }
+
+        .header_title {
+            font-size: 50px;
+            text-align: center;
+            color: rgb(204, 238, 83);
+        }
+
+        .but {
+            background-color: rgb(43, 226, 217);
+            padding: 5px;
+            width: fit-content;
+            border-radius: 5px;
+            color: rgb(0, 47, 255);
+            margin-top: 15px;
+            margin-right: 40px;
+            float: right;
+        }
+        .buyed {
+            text-align: center;
+            background-color: antiquewhite;
+            height: fit-content;
+            padding: 5px 0px;
+            font-size: 25px;
+            width: 90%;
+            margin: 10px auto;
+            border-radius: 10px;
+        }
+
+        .saved {
+            text-align: center;
+            background-color: antiquewhite;
+            height: fit-content;
+            padding: 5px 0px;
+            font-size: 25px;
+            width: 90%;
+            margin: 10px auto;
+            border-radius: 10px;
+        }
+        .content{
+            width: 60%;
+            padding: 10px;
+            margin: 50px auto;
+            background-color: rgb(235, 235, 235);
+            height: 70vh;
+        }
+        .chead{
+            width: 100%;
+            padding: 10px;
+            background-color: grey;
+            text-align: center;
+            font-size: 30px;
+            box-sizing: border-box;
+        }
+        .info{
+            width: 50%;
+            background-color: rgb(197, 197, 197);
+            margin: 50px auto;
+            padding: 25px 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header_title">
+            Stock Analysis
+        </div>
+
+        <div class="buyed" onclick="$('#mainContent').load('index')">
+            Home
+        </div>
+        
+        <div style="width: 70%; margin-top: -5px;">
+            <div class="but" onclick="calls()">
+                <!-- <a>Login</a>/<a>Signup</a> -->
+                <span class="material-symbols-outlined" style="font-size: 25px;">
+                    person
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="chead" id="chead">
+            AAPL
+        </div>
+        <div class="info">
+            <label for="quantity" style="font-size: 25px;">Quantity</label>
+            <input type="number" id="quantity" style="font-size: 25px;" oninput="change()" value="1" min="1"/>
+            <div style="width: 100%;margin: 10px auto;text-align: center;background-color: aliceblue;padding: 3px 0px;">
+                Details
+            </div>
+            <div class="" style="font-size: 20px;margin-top: 10px;" id="sp"> Stock price : 500</div>
+            <div class="" style="font-size: 20px;margin-top: 10px;"id="quant"> Quantity : 1</div>
+            <div style="font-size: 20px;margin-top: 10px;" id="multi"></div>
+            <br>
+            <button style="font-size: 25px;display: block;margin: 0px auto;" onclick="buy_stock()">Buy</button>
+        </div>
+    </div>
+    <script>
+        document.getElementById("chead").innerHTML=ticker;
+        document.getElementById("sp").innerHTML="Stock price: "+ori;
+        // document.getElementById("quant").innerHTML="Quantity :"+ "10";
+        let quant=document.getElementById("quantity").value
+        document.getElementById("multi").innerHTML="Toatal : "+ ori+"*"+quant+" = "+ori*quant ;
+        function change(){
+            let quant=document.getElementById("quantity").value
+            document.getElementById("quant").innerHTML="Quantity : "+ quant;
+            document.getElementById("multi").innerHTML="Toatal : "+ ori+"*"+quant+" = "+ori*quant ;
+        }
+        function checkOut(){
+            window.location.href=""
+        }
+        function buy_stock() {
+            let qua = document.getElementById("quantity").value
+            payment={  qua: qua , ticker: ticker, image: image, ori: ori, user: user_data}
+            $("#mainContent").load("ckeckout")
+        }
+    </script>
+</body>
+</html>

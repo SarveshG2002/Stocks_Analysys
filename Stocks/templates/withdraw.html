@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0px;
+        }
+
+        * {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+
+        .box {
+            width: 500px;
+            height: fit-content;
+            padding: 10px;
+            box-sizing: border-box;
+            background-color: aliceblue;
+            margin: 20px auto;
+        }
+
+        .title {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            font-size: 25px;
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            border-width: 0px 0px 1px 0px;
+            font-size: 25px;
+            background: none;
+            margin-top: 5px;
+        }
+
+        label {
+            color: grey;
+        }
+
+        .form div {
+            margin-top: 20px;
+        }
+
+        .sub {
+            background-color: blueviolet;
+            color: aliceblue;
+            padding: 10px;
+            width: fit-content;
+            margin: 0px auto;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div class="title">
+            Withdraw
+        </div>
+        <div class="form">
+            <div>
+                <label for="account">Bank account number</label>
+                <input type="text" placeholder="Enter here">
+            </div>
+            <div>
+                <label for="ifsc">IFSC code</label>
+                <input type="text" placeholder="Enter here">
+            </div>
+            <div>
+                <label for="holder">Account holder name</label>
+                <input type="text" placeholder="Enter here">
+            </div>
+            <center>
+                <div class="sub" onclick="$('#mainContent').load('index')">
+                    back
+                </div>
+                <div class="sub" onclick="withdraw()">
+                    Submit
+                </div>
+            </center>
+        </div>
+    </div>
+    <script>
+        function withdraw() {
+            let a = check_cred("sellstocks", payment)
+            a.then(data => {
+                data = JSON.parse(data)
+                $("#mainContent").load("buySell_page")
+            })
+        }
+    </script>
+</body>
+
+</html>

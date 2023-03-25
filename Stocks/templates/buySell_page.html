@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0px;
+        }
+
+        .header {
+            background-color: rgb(64, 118, 233);
+            padding: 10px;
+            display: grid;
+            grid-template-columns: 65% auto auto auto;
+        }
+
+        .header_title {
+            font-size: 50px;
+            text-align: center;
+            color: rgb(204, 238, 83);
+        }
+
+        .but {
+            background-color: rgb(43, 226, 217);
+            padding: 5px;
+            width: fit-content;
+            border-radius: 5px;
+            color: rgb(0, 47, 255);
+            margin-top: 15px;
+            margin-right: 40px;
+            float: right;
+        }
+
+        .buyed {
+            text-align: center;
+            background-color: antiquewhite;
+            height: fit-content;
+            padding: 5px 0px;
+            font-size: 25px;
+            width: 90%;
+            margin: 10px auto;
+            border-radius: 10px;
+        }
+
+        .saved {
+            text-align: center;
+            background-color: antiquewhite;
+            height: fit-content;
+            padding: 5px 0px;
+            font-size: 25px;
+            width: 90%;
+            margin: 10px auto;
+            border-radius: 10px;
+        }
+
+        .content {
+            width: 60%;
+            padding: 10px;
+            margin: 50px auto;
+            background-color: rgb(235, 235, 235);
+            height: 70vh;
+        }
+
+        .chead {
+            width: 100%;
+            padding: 10px;
+            background-color: grey;
+            text-align: center;
+            font-size: 30px;
+            box-sizing: border-box;
+        }
+
+        .stock {
+            display: grid;
+            grid-template-columns: 40% auto;
+        }
+
+        .side_image {
+            background-color: antiquewhite;
+            padding: 10px;
+        }
+
+        .sticker {
+            width: 100%;
+            font-size: 25px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .buy_at {
+            width: 100%;
+            font-size: 25px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .current {
+            width: 100%;
+            font-size: 25px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .quantity {
+            width: 100%;
+            font-size: 25px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="header_title">
+            Stock Analysis
+        </div>
+
+        <div class="buyed" onclick="$('#mainContent').load('index')">
+            Home
+        </div>
+        <div class="saved">
+            Saved stocks
+        </div>
+        <div style="width: 70%; margin-top: -5px;">
+            <div class="but" onclick="calls()">
+                <!-- <a>Login</a>/<a>Signup</a> -->
+                <span class="material-symbols-outlined" style="font-size: 25px;">
+                    person
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="content" id="content">
+        <div class="chead" id="chead">
+            Your Stocks
+        </div>
+        <br>
+        <div class="stock">
+            Nothing to show
+        </div>
+    </div>
+    <script>
+
+
+        function setcurrentprice() {
+            let cPriceb;
+            console.log(myStocks)
+            for (let x = 0; x < myStocks.length; x++) {
+                stP = check_cred("getLiveStockPrice", { tick: myStocks[x][0] })
+                stP.then(data => {
+                    console.log(myStocks[x][0], data)
+                    document.getElementById("cPriceb" + x).innerHTML = "Current price: " + data
+                    pricesStocks.push(data)
+                })
+            }
+        }
+        function calc_prof(x) {
+            let q = document.getElementById("in" + x).value
+            if (q < 0) {
+
+            }
+            else {
+                let cp = document.getElementById("cPriceb" + x).innerHTML
+                cp = cp.slice(15, cp.length)
+                let aq = myStocks[x][2]
+                //let cp = pricesStocks[x]
+                let bp = myStocks[x][1]
+                console.log("current price: ", cp)
+                console.log("buying price: ", bp)
+                let perStock = parseInt(cp) - parseInt(bp)
+                console.log("perStock: ", perStock)
+                //let profit=(parseInt(aq)*parseInt(bp))-(parseInt(q)*parseInt(cp))
+                let profit = perStock * parseInt(q)
+                document.getElementById("profit" + x).innerText = "Profit: " + profit
+            }
+
+        }
+        function myStocks_get() {
+            let a = check_cred("getbuystocks", { user: user_data })
+            a.then(data => {
+                data = JSON.parse(data)
+                if (data["ret"] == "false") {
+
+                }
+                else {
+                    data = data["ret"]
+                    myStocks = data
+                    let markup = "<div class='chead' id='chead'>Your Stocks</div><br>"
+                    let temp;
+                    let stP;
+                    let datapp;
+                    for (let x = 0; x < data.length; x++) {
+                        temp = "<div class='stock'><img src='" + data[x][4] + "' alt='' style='width: 100%;''><div class='side_image'><div class='sticker'>" + data[x][0] + "</div><div class='buy_at'>Buy at: " + data[x][1] + "</div><div class='current' id=" + "cPriceb" + x + ">Calculating...</div><div class='quantity'>Quantity: " + data[x][2] + "</div><input type='number' placeholder='Enter quantity' min='1' max='" + parseInt(data[x][2]) + "' style='font-size: 20px;width: 150px;' id=" + 'in' + x + " oninput='calc_prof(" + x + ")'><button style='background-color: purple;font-size: 20px; margin: 10px 0px 0px 20px;' onclick='sell_stocks(" + x + ")'>Sell</button><p id=profit" + x + ">Profit = 0</p></div></div>"
+                        markup = markup + temp
+                    }
+                    document.getElementById("content").innerHTML = markup;
+                    setcurrentprice()
+                }
+
+                //     
+                //     console.log(data)
+                //     let markup = "<div>Stocks ticker</div><div>Price</div><div>Quantity</div><div><div></div></div>";
+                //     let temp = "";
+                //     //console.log("tgvvh: ",data[0],data[0][0])
+                //     for (let x = 0; x < data.length; x++) {
+                //         temp = "<div>" + data[x][0] + "</div><div>" + data[x][1] + "</div><div>" + data[x][2] + "</div><div><button onclick='sell_stock(" + x + ")'>Sell</button></div>";
+                //         markup = markup + temp
+                //     }
+                //     // // for (let x in data) {
+                //     // //     console.log(x)
+
+                //     // }
+                //     document.getElementById("bst").innerHTML = markup
+                // }
+
+            })
+        }
+        function sell_stocks(id) {
+            let quant = document.getElementById("in" + id).value
+            if (parseInt(quant) > myStocks[id][2]) {
+                alert("Selling quantity is greater than your stocks")
+            }
+            else if(parseInt(quant)<0 || quant==""){
+                alert("please enter stock quantity")
+            }
+            else {
+                console.log(id, quant, user_data)
+                console.log(myStocks[id][0])
+                let tick = myStocks[id][0]
+                let price = myStocks[id][1]
+                let bquant = myStocks[id][2]
+                payment = { user: user_data, tick: tick, price: price, quant: quant, bquant: bquant }
+                $("#mainContent").load("withdraw")
+
+            }
+
+        }
+        myStocks_get()
+    </script>
+</body>
+
+</html>

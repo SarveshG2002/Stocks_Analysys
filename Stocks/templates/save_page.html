@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0px;
+        }
+
+        .header {
+            background-color: rgb(78, 196, 231);
+            padding: 10px;
+            display: grid;
+            grid-template-columns: 65% auto auto auto;
+        }
+
+        .header_title {
+            font-size: 50px;
+            text-align: center;
+            color: rgb(204, 238, 83);
+        }
+
+        .but {
+            background-color: rgb(86, 226, 219);
+            padding: 5px;
+            width: fit-content;
+            border-radius: 5px;
+            color: rgb(199, 66, 226);
+            margin-top: 15px;
+            margin-right: 40px;
+            float: right;
+        }
+
+        .buyed {
+            text-align: center;
+            background-color: antiquewhite;
+            height: fit-content;
+            padding: 5px 0px;
+            font-size: 25px;
+            width: 90%;
+            margin: 10px auto;
+            border-radius: 10px;
+        }
+
+        .saved {
+            text-align: center;
+            background-color: antiquewhite;
+            height: fit-content;
+            padding: 5px 0px;
+            font-size: 25px;
+            width: 90%;
+            margin: 10px auto;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header_title">
+            Stock Analysis
+        </div>
+
+        <div class="buyed" onclick="$('#mainContent').load('index')">
+            Home
+        </div>
+        <div class="saved" onclick="$('#mainContent').load('buySell_page')">
+            Buy stocks
+        </div>
+        <div style="width: 70%; margin-top: -5px;">
+            <div class="but" onclick="calls()">
+                <!-- <a>Login</a>/<a>Signup</a> -->
+                <span class="material-symbols-outlined" style="font-size: 25px;">
+                    person
+                </span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
